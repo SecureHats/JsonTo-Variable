@@ -28,7 +28,8 @@ jobs:
         uses: SecureHats/JsonTo-Variable@v0.0.15
         with:
           filePath: 'variables/env.json'
-          arraySeparator: ','          
+          arraySeparator: ','
+          outputs: true
 ```
 
 ### Inputs
@@ -39,6 +40,7 @@ This Action has the following format inputs.
 |-|-|-|
 | **`filePath`**  | true | Path to the directory containing the log files to be send, relative to the root of the project.<br /> This path is optional and defaults to the project root, in which case all files CSV files and JSON wills across the entire project tree will be discovered.  
 | **`arraySeparator`** | true | The character used to separate an array of values.
+| **`outputs`** | false | Set boolean if variables needs to be available in other jobs
 
 
 ## Current limitations / Under Development
