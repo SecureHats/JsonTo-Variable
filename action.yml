@@ -22,5 +22,5 @@ runs:
     - run: ${{ github.action_path }}/action.ps1 `
               -filePath "${{ inputs.filePath }}" 
               -arraySeparator "${{ inputs.arraySeparator }}"
-              -Outputs ${{ inputs.Outputs }}
+              -Outputs ${{ inputs.outputs }}
       shell: pwsh
