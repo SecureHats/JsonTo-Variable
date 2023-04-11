@@ -14,32 +14,31 @@ This GitHub action can be used to create workflow variables from a json file<br 
 > Add the following code block to your Github workflow:
 
 ```yaml
-name: JsonTo-Variable
-on:
-  push:
-    paths:
-      - variables/**
+name: Create-Variables
+on: push
 
 jobs:
-  template:
-    name: Action Name
+  Create-Variables:
+    name: Creating and passing variables
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: SecureHats JsonTo-Variable
-        uses: SecureHats/JsonTo-Variable@v0.0.1
+        uses: SecureHats/JsonTo-Variable@v0.0.15
         with:
-          filePath: 'variables'
+          filePath: 'variables/env.json'
+          arraySeparator: ','          
 ```
 
 ### Inputs
 
 This Action has the following format inputs.
 
-| Name | Req | Description
+| Name | Required | Description
 |-|-|-|
-| **`filePath`**  | false | Path to the directory containing the log files to be send, relative to the root of the project.<br /> This path is optional and defaults to the project root, in which case all files CSV files and JSON wills across the entire project tree will be discovered.
+| **`filePath`**  | true | Path to the directory containing the log files to be send, relative to the root of the project.<br /> This path is optional and defaults to the project root, in which case all files CSV files and JSON wills across the entire project tree will be discovered.  
+| **`arraySeparator`** | true | The character used to separate an array of values.
 
 
 ## Current limitations / Under Development
