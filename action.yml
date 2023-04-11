@@ -8,8 +8,8 @@ inputs:
     description: 'Path to the json file'
     required: true
     default: ''
-  arraySeparator:
-    description: 'Separator for arrays'
+  arraySeperator:
+    description: 'arraySeperator for arrays'
     required: true
     default: ','
 
@@ -18,5 +18,5 @@ runs:
   steps:
     - run: ${{ github.action_path }}/action.ps1 `
               -filePath "${{ inputs.filePath }}" 
-              -arraySeperator "${{ inputs.arraySeparator }}"
+              -arraySeperator "${{ inputs.arraySeperator }}"
       shell: pwsh
