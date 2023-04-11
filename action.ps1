@@ -24,11 +24,13 @@ param (
 
     $InputObject = Get-Content -Path $filePath | ConvertFrom-Json
 
-#     $arraySeparator = Get-VstsInput -Name arraySeparator
-#     if ($arraySeparator) {
-#         $argHash.arraySeparator = $arraySeparator
-#     }
-# }
+ $argHash = @{
+        "InputObject" = Get-Content -Path $filePath | ConvertFrom-Json
+    }
+
+    if ($arraySeparator) {
+        $argHash.arraySeparator = $arraySeparator
+    }
 
 function Set-Variables {
     param (
@@ -70,4 +72,4 @@ function Set-Variables {
     }
 }
 
-Set-Variables $InputObject
+Set-Variables @argHash
