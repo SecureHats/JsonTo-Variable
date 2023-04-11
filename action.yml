@@ -12,6 +12,9 @@ inputs:
     description: 'arraySeperator for arrays'
     required: true
     default: ','
+  outputs:
+    description: 'Use variables in other jobs'
+    default: false
 
 runs:
   using: "composite"
@@ -19,4 +22,5 @@ runs:
     - run: ${{ github.action_path }}/action.ps1 `
               -filePath "${{ inputs.filePath }}" 
               -arraySeparator "${{ inputs.arraySeparator }}"
+              -Outputs ${{ inputs.Outputs }}
       shell: pwsh
