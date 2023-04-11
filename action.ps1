@@ -15,7 +15,10 @@ param (
     [string]$filePath,
 
     [parameter(Mandatory = $false)]
-    [string]$arraySeparator
+    [string]$arraySeparator,
+    
+    [parameter(Mandatory = $false)]
+    [bool]$Outputs
 )
 
     if (-not $filePath) {
@@ -41,7 +44,10 @@ function Set-Variables {
         [String] $Parent,
 
         [Parameter(Mandatory = $false)]
-        [String] $ArraySeparator = ";"
+        [String] $ArraySeparator = ";",
+        
+        [Parameter(Mandatory = $false)]
+        [bool] $Outputs = "$false"
     )
 
     $props = Get-Member -InputObject $InputObject -MemberType NoteProperty
@@ -67,6 +73,10 @@ function Set-Variables {
 
                 Write-Host "Creating variable '$variableName'."
                 echo "$variableName=$propValue" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+                
+                if ($outputs) {
+                echo "$variableName=$propValue" | Out-File -FilePath $Env:$GITHUB_OUTPUT -Encoding utf8 -Append
+                }
             }
         }
     }
