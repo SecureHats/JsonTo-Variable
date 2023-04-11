@@ -29,6 +29,7 @@ param (
 
  $argHash = @{
         "InputObject" = Get-Content -Path $filePath | ConvertFrom-Json
+        "Outputs"     = $Outputs
     }
 
     if ($arraySeparator) {
