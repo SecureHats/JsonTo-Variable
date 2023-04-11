@@ -8,9 +8,15 @@ inputs:
     description: 'Path to the json file'
     required: true
     default: ''
+  arraySeperator:
+    description: 'Separator for arrays'
+    required: true
+    default: ','
 
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/action.ps1 -filePath ${{ inputs.filePath }}
+    - run: ${{ github.action_path }}/action.ps1 `
+              -filePath ${{ inputs.filePath }} 
+              -arraySeperator ${{ inputs.arraySeperator }}
       shell: pwsh

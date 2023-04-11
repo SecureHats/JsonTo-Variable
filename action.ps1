@@ -12,7 +12,10 @@
 
 param (
     [parameter(Mandatory = $false)]
-    [string]$filePath
+    [string]$filePath,
+
+    parameter(Mandatory = $false)]
+    [string]$arraySeparator
 )
 
     if (-not $filePath) {
