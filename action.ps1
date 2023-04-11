@@ -76,7 +76,7 @@ function Set-Variables {
                 echo "$variableName=$propValue" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
                 
                 if ($outputs) {
-                echo "$variableName=$propValue" | Out-File -FilePath $Env:$GITHUB_OUTPUT -Encoding utf8 -Append
+                echo "$variableName=$propValue" >> $GITHUB_OUTPUT
                 }
             }
         }
