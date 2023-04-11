@@ -14,7 +14,7 @@ param (
     [parameter(Mandatory = $false)]
     [string]$filePath,
 
-    parameter(Mandatory = $false)]
+    [parameter(Mandatory = $false)]
     [string]$arraySeparator
 )
 
