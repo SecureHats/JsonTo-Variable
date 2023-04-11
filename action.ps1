@@ -29,7 +29,7 @@ param (
 
  $argHash = @{
         "InputObject" = Get-Content -Path $filePath | ConvertFrom-Json
-        "Outputs"     = $Outputs
+        "Outputs"     = $true
     }
 
     if ($arraySeparator) {
@@ -48,7 +48,7 @@ function Set-Variables {
         [String] $ArraySeparator = ";",
         
         [Parameter(Mandatory = $false)]
-        [bool] $Outputs = "$false"
+        [bool] $Outputs = $true
     )
 
     $props = Get-Member -InputObject $InputObject -MemberType NoteProperty
