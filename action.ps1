@@ -64,7 +64,7 @@ function Set-Variables {
             }
             else {
                 if ($propValue.GetType().FullName -eq "System.Object[]") {
-                    $propValue = $propValue -join $ArraySeparator
+                    $propValue = $propValue | ConvertTo-Json
                 }
 
                 $variableName = $prop.Name
