@@ -12,7 +12,8 @@ This GitHub action can be used to create workflow variables from a json file<br 
 ### Example 1
 
 > Add the following code block to your Github workflow:
-
+  
+  
 ```yaml
 name: Create-Variables
 on: push
@@ -25,11 +26,54 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: SecureHats JsonTo-Variable
-        uses: SecureHats/JsonTo-Variable@v0.0.15
+        uses: SecureHats/JsonTo-Variable@v0.1.0
         with:
           filePath: 'variables/env.json'
           arraySeparator: ','
-          outputs: true
+```
+
+### Example 2
+
+By setting the `outputs` flag to `true` a GitHub Output variable is created. This can be useful to use variables in multiple jobs.  
+The next example shows how a variable is parsed to the next job.
+  
+  
+  
+> Add the following code block to your Github workflow:
+
+```yaml
+name: Create-Variables
+on: push
+
+jobs:
+  job1:
+    name: Creating and passing variables
+    runs-on: ubuntu-latest
+    
+    outputs:
+      output1: ${{ env.contact_firstname }}
+      output2: ${{ env.location_city }}
+    
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: SecureHats JsonTo-Variable
+        id: step1
+        uses: SecureHats/JsonTo-Variable@v0.1.0
+        with:
+          filePath: 'variables/env.json'
+          arraySeparator: ','
+          outputs: $true
+
+  job2:
+      needs: [job1]
+      name: Reading previous variables
+      runs-on: ubuntu-latest    
+
+      steps:
+      - name: Print output variable
+        run: |
+          echo "having dinner with ${{ needs.job1.outputs.output1 }} in ${{ needs.job1.outputs.output2 }}"
 ```
 
 ### Inputs
