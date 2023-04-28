@@ -25,11 +25,41 @@ param (
         Write-Error "No valid parameter file found."
     }
 
-    $InputObject = Get-Content -Path $filePath | ConvertFrom-Json
+    if ($filePath.Extension -eq '.json') {
+            try {
+                 $inputObject = Get-Content -Path $filePath | ConvertFrom-Json
+            }
+            catch {
+                Write-Verbose $_
+                Write-Error -Message 'Unable to import JSON file' -ErrorAction Stop
+            }
+        }
+        elseif ($filePath.Extension -in '.yaml', '.yml') {
+            try {
+                $modulesToInstall = @(
+                    'powershell-yaml'
+                )   
+                $modulesToInstall | ForEach-Object {
+                    if (-not (Get-Module -ListAvailable -All $_)) {
+                        Write-Output "Module [$_] not found, INSTALLING..."
+                        Install-Module $_ -Force
+                        Import-Module $_ -Force
+                    }
+                }            
+                $InputObject = Get-Content -Path $filePath | ConvertFrom-Yaml    
+            }
+            catch {
+                Write-Verbose $_
+                Write-Error -Message 'Unable to convert yaml file' -ErrorAction Stop
+            }
+        }
+        else {
+            Write-Error -Message 'Unsupported extension for SettingsFile' -ErrorAction Stop
+        }
 
- $argHash = @{
+    $argHash = @{
         "InputObject" = Get-Content -Path $filePath | ConvertFrom-Json
-        "Outputs"     = $true
+        "outputs"     = $outputs
     }
 
     if ($arraySeparator) {
@@ -41,6 +71,9 @@ function Set-Variables {
         [Parameter(Mandatory = $true)]
         [Object] $InputObject,
 
+        [Parameter(Mandatory = $false)]
+        [String] $InputType = "json",
+        
         [Parameter(Mandatory = $false)]
         [String] $Parent,
 
@@ -83,11 +116,10 @@ function Set-Variables {
                       }
                 }
                 Write-Host "Creating variable '$variableName'."        
-                 echo "$variableName=$propValue" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+                echo "$variableName=$propValue" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
                 
                 if ($outputs) {
                      echo "variableName=$propValue" >> $env:GITHUB_OUTPUT
-#                      echo "$variableName=$propValue" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
                 }
             }
         }
