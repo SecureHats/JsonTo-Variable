@@ -26,7 +26,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: SecureHats JsonTo-Variable
-        uses: SecureHats/JsonTo-Variable@v0.1.0
+        uses: SecureHats/JsonTo-Variable@v0.1.3
         with:
           filePath: 'variables/env.json'
           arraySeparator: ','
