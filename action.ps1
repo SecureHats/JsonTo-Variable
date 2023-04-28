@@ -60,7 +60,7 @@ param (
         }
 
     $argHash = @{
-        "InputObject" = Get-Content -Path $filePath | ConvertFrom-Json
+        "InputObject" = $InputObject
         "outputs"     = $outputs
     }
 
