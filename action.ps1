@@ -47,6 +47,7 @@ param (
                         Import-Module $_ -Force
                     }
                 }            
+                $arraySeparator = ','
                 $InputObject = Get-Content -Path $filePath | ConvertFrom-Yaml    
             }
             catch {
