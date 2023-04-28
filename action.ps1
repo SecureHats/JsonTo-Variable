@@ -11,8 +11,9 @@
 #>
 
 param (
-    [parameter(Mandatory = $false)]
-    [string]$filePath,
+    [Parameter(Mandatory, ValueFromPipeline)]
+    [ValidateScript( { (Test-Path -Path $_) -and ($_.Extension -in '.json', '.yaml', '.yml') })]
+    [System.IO.FileInfo]$filePath,
 
     [parameter(Mandatory = $false)]
     [string]$arraySeparator,
