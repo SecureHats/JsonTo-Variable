@@ -18,7 +18,7 @@ param (
     [string]$arraySeparator,
     
     [parameter(Mandatory = $false)]
-    [bool]$Outputs
+    [bool]$outputs
 )
 
     if (-not $filePath) {
