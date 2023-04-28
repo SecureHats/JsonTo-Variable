@@ -64,20 +64,31 @@ function Set-Variables {
             }
             else {
                 if ($propValue.GetType().FullName -eq "System.Object[]" -or ($($prop.Definition) -like "Object*")) {
-                    $propValue = $propValue
+                    $propValue = $propValue -join $ArraySeparator
+                    $arrayFlag = $true
                 }
 
                 $variableName = $prop.Name
                 if ($Parent) {
                     $variableName = "$($Parent)_$($prop.Name)"
                 }
-
-                Write-Host "Creating variable '$variableName'."
+                
+                if ($arrayFlag) {
+                    $arrayList = $propValue -split $ArraySeparator
+                      if ($arrayList.count -gt 1) {
+                        $propValue = $arrayList | ConvertTo-Json -Compress
+                      } else {
+                        $propValue = "[""$($arrayList)""]"
+                      }
+                    echo "arrayObject=$arrayObject" >> $env:GITHUB_OUTPUT
+                }
+                Write-Host "Creating variable '$variableName'."        
                 echo "$variableName=$propValue" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
                 
                 if ($outputs) {
                     echo "$variableName=$propValue" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
                 }
+                $arrayFlag = $false
             }
         }
     }
