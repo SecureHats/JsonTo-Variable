@@ -63,7 +63,7 @@ function Set-Variables {
                 Set-Variables -InputObject $propValue -Parent $newParent -ArraySeparator $ArraySeparator
             }
             else {
-                if ($propValue.GetType().FullName -eq "System.Object[]") {
+                if ($propValue.GetType().FullName -eq "System.Object[]" -or ($($prop.Definition) -like "*object*")) {
                     $propValue = $propValue -join $ArraySeparator
                     $arrayFlag = $true
                 }
